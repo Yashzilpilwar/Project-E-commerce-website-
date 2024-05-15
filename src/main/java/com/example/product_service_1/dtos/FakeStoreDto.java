@@ -1,6 +1,8 @@
 package com.example.product_service_1.dtos;
 
 
+import com.example.product_service_1.models.Category;
+import com.example.product_service_1.models.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,29 +10,25 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class FakeStoreDto {
-
-    private int id;
+    private Long id;
     private String title;
-    private String Description;
+    private String description;
     private double price;
     private String image;
     private String category;
 
+    public Product toProduct() {
+        Product product = new Product();
+        product.setId(id);
+        product.setTitle(title);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setImageUrl(image);
+        Category categoryObj = new Category();
+        categoryObj.setTitle(category);
 
-    public ProductResponseDto productResponseDto(){
-        ProductResponseDto productResponseDto = new ProductResponseDto();
-        productResponseDto.setId(id);
-        productResponseDto.setTitle(title);
-        productResponseDto.setDescription(Description);
-        productResponseDto.setPrice(price);
-        productResponseDto.setImage(image);
-        productResponseDto.setCategory(category);
-
-        return productResponseDto;
-
+        product.setCategory(categoryObj);
+        return product;
     }
-
-
 }

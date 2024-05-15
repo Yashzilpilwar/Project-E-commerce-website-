@@ -2,19 +2,33 @@ package com.example.product_service_1.services;
 
 import com.example.product_service_1.dtos.FakeStoreDto;
 import com.example.product_service_1.dtos.ProductResponseDto;
+import com.example.product_service_1.exceptions.ProductNotFoundException;
 import com.example.product_service_1.models.Product;
+
+import java.util.List;
 
 public interface ProductService {
 
-    public ProductResponseDto getSingleproduct(int productId);
-
-    public ProductResponseDto addProduct(
-
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException;
+    public List<Product> getAllProducts();
+    public Product addProduct(
             String title,
             String description,
             String imageUrl,
             String category,
-            double price
-    );
+            double price);
+    public Product deleteProduct(Long productId) throws ProductNotFoundException;
+    public Product updateProduct(Long productId,
+                                 String title,
+                                 String description,
+                                 String imageUrl,
+                                 String category,
+                                 double price) throws ProductNotFoundException;
 
+    public Product replaceProduct(Long productId,
+                                  String title,
+                                  String description,
+                                  String imageUrl,
+                                  String category,
+                                  double price) throws ProductNotFoundException;
 }

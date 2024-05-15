@@ -6,14 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class ProductResponseDto {
-
-    private int id;
+    private Long id;
     private String title;
-    private String Description;
+    private String description;
     private double price;
     private String image;
     private String category;
-
 }
