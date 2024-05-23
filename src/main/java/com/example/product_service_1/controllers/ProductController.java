@@ -6,6 +6,7 @@ import com.example.product_service_1.exceptions.ProductNotFoundException;
 import com.example.product_service_1.models.Product;
 import com.example.product_service_1.services.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ProductController {
     private ProductService productService;
     private ModelMapper modelMapper;
 
-    public ProductController(ProductService productService,
+    public ProductController(@Qualifier("selfProductService")ProductService productService,
                              ModelMapper modelMapper) {
         this.productService = productService;
         this.modelMapper = modelMapper;
@@ -49,7 +50,7 @@ public class ProductController {
         Product product = productService.addProduct(
                 productRequestDto.getTitle(),
                 productRequestDto.getDescription(),
-                productRequestDto.getImage(),
+                productRequestDto.getImageUrl(),
                 productRequestDto.getCategory(),
                 productRequestDto.getPrice() );
         // return convertToProductResponseDto(product);
@@ -72,7 +73,7 @@ public class ProductController {
         Product product = productService.updateProduct(productId,
                 productRequestDto.getTitle(),
                 productRequestDto.getDescription(),
-                productRequestDto.getImage(),
+                productRequestDto.getImageUrl(),
                 productRequestDto.getCategory(),
                 productRequestDto.getPrice() );
         ProductResponseDto productResponseDto = convertToProductResponseDto(product);
@@ -86,7 +87,7 @@ public class ProductController {
         Product product = productService.replaceProduct(productId,
                 productRequestDto.getTitle(),
                 productRequestDto.getDescription(),
-                productRequestDto.getImage(),
+                productRequestDto.getImageUrl(),
                 productRequestDto.getCategory(),
                 productRequestDto.getPrice() );
         ProductResponseDto productResponseDto = convertToProductResponseDto(product);
