@@ -1,16 +1,20 @@
 package com.example.product_service_1;
 
 import com.example.product_service_1.dtos.ProductResponseDto;
+import com.example.product_service_1.models.Category;
 import com.example.product_service_1.models.Product;
 import com.example.product_service_1.repositories.CategoryRepository;
 import com.example.product_service_1.repositories.ProductRepository;
 import com.example.product_service_1.repositories.projections.ProductProjections;
 import com.example.product_service_1.repositories.projections.ProductWithIdAndTitle;
+import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class ProductService1ApplicationTests {
@@ -78,6 +82,32 @@ class ProductService1ApplicationTests {
     void testNativeSql(){
         Product product = productRepository.someNativeSql(1L);
         System.out.println(product.getTitle());
+
+    }
+    @Test
+    @Transactional
+    void testFetchType(){
+        Optional<Category> category = categoryRepository.findById(3L);
+        if(category.isPresent()){
+            System.out.println(category.get().getTitle());
+            List<Product> products = category.get().getProducts();
+            for(Product product : products){
+                System.out.println(product.getTitle());
+            }
+        }
+    }
+
+    @Test
+    @Transactional
+    void testFetchMode(){
+        List<Category> categories = categoryRepository.findByTitleEndingWith("jaybb");
+        for(Category category : categories){
+            System.out.println(category.getTitle());
+            List<Product> products = category.getProducts();
+            for(Product product : products){
+                System.out.println(product.getTitle());
+            }
+        }
 
     }
 }
