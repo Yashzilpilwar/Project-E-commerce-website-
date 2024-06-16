@@ -1,7 +1,5 @@
 package com.example.product_service_1.services;
 
-import com.example.product_service_1.dtos.FakeStoreDto;
-import com.example.product_service_1.dtos.ProductResponseDto;
 import com.example.product_service_1.exceptions.ProductNotFoundException;
 import com.example.product_service_1.models.Product;
 

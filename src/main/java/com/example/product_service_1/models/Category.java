@@ -18,7 +18,8 @@ import java.util.List;
 @Entity
 public class Category extends BaseModel  {
     private String title;
-    @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
-    //@Fetch(value = FetchMode.SUBSELECT)
+    // private String description;
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    //@Fetch(value = FetchMode.J)
     List<Product> products;
 }

@@ -36,16 +36,15 @@ class ProductService1ApplicationTests {
 
     @Test
     void testJpaDeclaredJoin() {
-        List<Product> products = productRepository.findAllByCategory_Title("jaybb");
+        List<Product> products = productRepository.findAllByCategory_Title("new electronics");
         for (Product product : products) {
             System.out.println(product.getTitle());
-
         }
     }
 
     @Test
     void testHQL() {
-        List<Product> products = productRepository.getProductByCategoryName("jaybb");
+        List<Product> products = productRepository.getProductWithCategoryName("new electronics");
         for (Product product : products) {
             System.out.println(product.getTitle());
             System.out.println(product.getCategory().getTitle());
@@ -55,7 +54,7 @@ class ProductService1ApplicationTests {
 
     @Test
     void testSpecificFields() {
-        List<String> productTitles = productRepository.someTitleMethod("jaybb");
+        List<String> productTitles = productRepository.someTitleMethod("new electronics");
         for (String productTitle : productTitles) {
             System.out.println(productTitle);
         }
@@ -63,35 +62,38 @@ class ProductService1ApplicationTests {
 
     @Test
     void testProjections() {
-        List<ProductWithIdAndTitle> products = productRepository.someMethod1("jaybb");
+        List<ProductWithIdAndTitle> products = productRepository.someMethod1("new electronics");
         for (ProductWithIdAndTitle product : products) {
             System.out.println(product.getTitle());
             System.out.println(product.getId());
         }
 
-
-        List<ProductProjections> productProjections = productRepository.someMethod2("jaybb");
-        for (ProductProjections p : productProjections) {
+        List<ProductProjections> productProjections = productRepository.someMethod2("new electronics");
+        for(ProductProjections p : productProjections) {
             System.out.println(p.getTitle());
             System.out.println(p.getId());
-
         }
     }
 
     @Test
-    void testNativeSql(){
-        Product product = productRepository.someNativeSql(1L);
-        System.out.println(product.getTitle());
+    void testNativeSql() {
+        //Product product = productRepository.someNativeSql(1L);
+//        ProductProjection product = productRepository.someNativeSql(1L);
+//        System.out.println(product.getTitle());
 
+        ProductProjection product2 = productRepository.someNativeSql2(5L);
+        System.out.println(product2.getTitle());
+        System.out.println(product2.getId());
     }
+
     @Test
     @Transactional
-    void testFetchType(){
+    void testFetchType() {
         Optional<Category> category = categoryRepository.findById(3L);
-        if(category.isPresent()){
+        if (category.isPresent()) {
             System.out.println(category.get().getTitle());
             List<Product> products = category.get().getProducts();
-            for(Product product : products){
+            for (Product product : products) {
                 System.out.println(product.getTitle());
             }
         }
@@ -99,15 +101,37 @@ class ProductService1ApplicationTests {
 
     @Test
     @Transactional
-    void testFetchMode(){
-        List<Category> categories = categoryRepository.findByTitleEndingWith("jaybb");
-        for(Category category : categories){
+    void testFetchMode() {
+        List<Category> categories = categoryRepository.findByTitleEndingWith("electronics");
+        for (Category category : categories) {
             System.out.println(category.getTitle());
             List<Product> products = category.getProducts();
-            for(Product product : products){
+            for (Product product : products) {
                 System.out.println(product.getTitle());
             }
         }
+    }
+    // Break till 8:35 AM
+    @Test
+    void addManyProducts() {
+        double basePrice = 2000;
+        String productName = "toy";
+        String productDescription = "toy number";
+        String imageUrl = "www.imgur.com/";
+        String categoryName = "toys";
+
+        for (int i = 1; i <= 100; i++) {
+            Product product = new Product();
+            product.setTitle(productName + "-" + i);
+            product.setDescription( productDescription + " # " + i);
+            product.setPrice(basePrice + i);
+            Category category = new Category();
+            category.setTitle(categoryName);
+            product.setCategory(category);
+            product.setImageUrl(imageUrl + i);
+            productRepository.save(product);
+        }
+
 
     }
 }
